@@ -1,0 +1,88 @@
+﻿@model LibraryASP.NET.Models.Book
+
+@{
+	ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+	@Html.AntiForgeryToken()
+
+	<div class="form-horizontal">
+		<h4>Book</h4>
+		<hr />
+		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control",datacontent="DescriptBook" } })
+				@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Author, new { htmlAttributes = new { @class = "form-control", datacontent = "DescriptBook" } })
+				@Html.ValidationMessageFor(model => model.Author, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.DateEdition, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.DateEdition, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.DateEdition, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			@Html.LabelFor(model => model.Stock, htmlAttributes: new { @class = "control-label col-md-2" })
+			<div class="col-md-10">
+				@Html.EditorFor(model => model.Stock, new { htmlAttributes = new { @class = "form-control" } })
+				@Html.ValidationMessageFor(model => model.Stock, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" class="btn btn-default" />
+			</div>
+		</div>
+	</div>
+}
+
+<div>
+	@Html.ActionLink("Back to List", "Index")
+</div>
+<script>
+	var VALID;
+	var DIVError = '<div class="error" style="margin-top:15px;"><font color="red">Invalid format,only letters are allowed!</font></div>';
+		var btn = $("input:submit").first();
+		btn.on("click", function () {
+		VALID = true;
+		$("div.error").remove();
+			let elementinput = $("input[datacontent='DescriptBook']").get()
+			for (let el of elementinput)
+				if (el.value.length > 0 && !/['A-Z''a-z'\s']/i.test(el.value)) {
+					$(el).after(DIVError).show()
+					VALID = false;
+				}
+			setTimeout(function () {
+				$("div.error").remove();
+			}, 5000);
+			if (!VALID) {
+				return VALID;
+			}
+			if (!/^[0-9]/i.test($("#Stock").val())) {
+				$("#Stock").after('<div class="error" style="margin-top:15px;"><font color="red">Invalid format,only positive numbers</font></div>').show();
+				return false;
+			}
+		});
+</script>
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}

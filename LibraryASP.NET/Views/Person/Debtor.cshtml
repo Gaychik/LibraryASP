@@ -1,0 +1,60 @@
+﻿@model IEnumerable<LibraryASP.NET.Models.Person>
+
+@{
+	ViewBag.Title = "Debtors";
+}
+@{int count = 0; }
+<h2>Debtrors</h2>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.FullName)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.BirthDate)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.Address)
+		</th>
+		<th>
+			Book Name
+		</th>
+		<th>
+			Date Issue
+		</th>
+		<th>
+			DeadLine
+		</th>
+	</tr>
+	@foreach (var item in Model)
+	{
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => item.FullName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.BirthDate)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.Address)
+		</td>
+		<td>
+			@ViewBag.BookList[count]
+		</td>
+		<td>
+			@ViewBag.DatesIssueList[count].ToShortDateString()
+		</td>
+		<td>
+			@ViewBag.DeadLines[count].ToShortDateString()
+		</td>
+		<td>
+			@Html.ActionLink("Details", "Details", new { id = item.PersonID, NamePage=this.Url })
+		</td>
+	</tr>
+		count++;
+	}
+
+
+</table>
+
+

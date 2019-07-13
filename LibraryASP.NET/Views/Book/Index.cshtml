@@ -1,0 +1,100 @@
+﻿@model PagedList.IPagedList<LibraryASP.NET.Models.Book>
+@using PagedList.Mvc
+@{
+	ViewBag.Title = "Book";
+}
+@Scripts.Render("~/bundles/jquery");
+<h2>Books</h2>
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Book", FormMethod.Get))
+{
+<p>
+	Find by name:  <input type="text"  spellcheck="false"/>
+	<input type="submit" value="Search" />
+</p>
+}
+<table id="tablebooks" class="table">
+	<thead>
+		<tr>
+			<th hidden>
+				 BookID
+			</th>
+			<th>
+				Book Name
+			</th>
+			<th>
+				Author
+			</th>
+			<th>
+			    Author
+			</th>
+			<th>
+				Stock
+			</th>
+		</tr>
+	</thead>
+	<tbody id="books">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td hidden>
+					@Html.DisplayFor(modelItem => item.BookID)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Name)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Author)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateEdition)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Stock)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.BookID }) |
+					@Html.ActionLink("Details", "Details", new { id = item.BookID }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.BookID })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+
+<script type="text/javascript">
+	var rows;
+	rows = $('#tablebooks tbody tr').get();
+	urlParams = new URLSearchParams(window.location.search);
+	var params = new Map();
+	var counter;
+	urlParams.forEach((p, key) => {
+		params[key] = p;
+	});
+
+	for (var i = 0; i < rows.length; i++) {
+		if (params["ModeTake"]) {
+			rows[i].addEventListener("mouseover", (event) => {
+				event.target.parentElement.style.cssText = "outline:1px solid blue;cursor:pointer";
+			})
+			rows[i].addEventListener("mouseout", (event) => {
+				event.target.parentElement.style.cssText = "";
+			})
+
+			rows[i].addEventListener("click", (event) => {
+				var res = confirm("Do you want take the book?");
+				if (res) {
+					var value = event.target.parentElement.cells[0].textContent;
+					var url = '@Url.Action("Details", "Person", new { id = "id",BookID="bookId"})'.replace('id', params["guid"]).replace('bookId', value);
+						window.location.href = url;
+				}
+			})
+		}
+	}
+</script>
+@Scripts.Render("~/bundles/Filter")
+Page: @(Model.PageCount < Model.PageNumber ? 0 : Model.PageCount) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

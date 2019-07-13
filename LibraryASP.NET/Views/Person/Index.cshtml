@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<LibraryASP.NET.Models.Person>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<script src="~/Scripts/inputmask/inputmask.js"></script>
+<script src="~/Scripts/inputmask/inputmask.extensions.js"></script>
+<script src="~/Scripts/inputmask/inputmask.numeric.extensions.js"></script>
+<script src="~/Scripts/inputmask/inputmask.date.extensions.js"></script>
+<script src="~/Scripts/inputmask/jquery.inputmask.js"></script>
+@{
+	ViewBag.Title = "Person";
+}
+<h2>Readers</h2>
+<p>
+	@Html.ActionLink("Create New", "Create")
+</p>
+@using (Html.BeginForm("Index", "Person", FormMethod.Get))
+{<p>
+		Find by name:@Html.Editor("SearchString", new { htmlAttributes = new { @class = "form-control" } })
+		<input type="submit" value="Search" class="btn-group" />
+	</p>
+}
+<script>
+	var selector = $("#SearchString");
+	
+</script>
+<table id="tablepersons" class="table">
+	<thead>
+		<tr>
+			<th>
+				First Name
+			</th>
+			<th>
+				Last Name
+			</th>
+			<th>
+				Mid Name
+			<th>
+				Birth Date
+			</th>
+			<th>
+				Address
+			</th>
+			<th>
+				Telephone Number
+			</th>
+		</tr>
+	</thead>
+	<tbody id="persons">
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.FirstName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.LastName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.MidName)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.BirthDate)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Address)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.TelephoneNumber)
+				</td>
+				<td>
+					@Html.ActionLink("Edit", "Edit", new { id = item.PersonID }) |
+					@Html.ActionLink("Details", "Details", new { id = item.PersonID }) |
+					@Html.ActionLink("Delete", "Delete", new { id = item.PersonID })
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@Scripts.Render("~/bundles/Filter");
+<br />
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageCount) of @Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }))

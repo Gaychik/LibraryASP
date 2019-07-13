@@ -1,0 +1,47 @@
+﻿@model  LibraryASP.NET.Models.Book
+@{
+	ViewBag.Title = "Readers";
+}
+<h2>Recycle Bin</h2>
+<h3>@Model.Name | @Model.Author</h3> 
+<hr />
+@Scripts.Render("~/bundles/jquery");
+<div id="divTable" class="col-md-4">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					Person
+				</th>
+				<th>
+					Date Issue
+				</th>
+				<th>
+					Date Receipt
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model.Recorders)
+			{
+				<tr>
+					<th>
+						@Html.DisplayFor(model => item.Person)
+					</th>
+					<th>
+						@Html.DisplayFor(model => item.DateIssue)
+					</th>
+					<th>
+						@Html.DisplayFor(model => item.DateReceipt)
+					</th>
+				</tr>
+			}
+		</tbody>
+	</table>
+	@Html.ActionLink("Back to List", "Details")
+</div>
+<br />
+
+
+
+

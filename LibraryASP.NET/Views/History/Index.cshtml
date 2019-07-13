@@ -1,0 +1,39 @@
+﻿@model IEnumerable<LibraryASP.NET.Models.History>
+
+@{
+    ViewBag.Title = "Index";
+}
+<h2>History of Readers</h2>
+<table class="table">
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Person)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.BookName)			
+		</th>
+		<th>
+			@Html.DisplayNameFor(model=>model.DateIssue)
+		</th>
+		<th>
+			@Html.DisplayNameFor(model => model.DateReceipt)
+		</th>
+    </tr>
+@foreach (var item in Model)
+{
+	<tr>
+		<td>
+			@Html.DisplayFor(modelItem => item.Person)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.BookName)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.DateIssue)
+		</td>
+		<td>
+			@Html.DisplayFor(modelItem => item.DateReceipt)
+		</td>
+	</tr>
+}
+</table>

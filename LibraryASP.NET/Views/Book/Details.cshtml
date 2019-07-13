@@ -1,0 +1,43 @@
+﻿@model LibraryASP.NET.Models.Book
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="col-md-12">
+    <h4>Book</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Author)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Author)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DateEdition)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DateEdition)
+        </dd>
+
+    </dl>
+</div>
+<div class="col-md-4">@Html.ActionLink("Readers", "GetReader", new { id = Model.BookID})</div>
+<p class="col-md-12">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.BookID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
