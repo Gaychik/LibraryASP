@@ -43,9 +43,7 @@
 			}
 		</tbody>
 	</table>
-	@Html.ActionLink("Back to List","Details",new {id=Model.PersonID})|
-	@Html.ActionLink("Report", "GetReport",new {id=Model.PersonID })
-
+	@Html.ActionLink("Back to List","Details",new {id=Model.PersonID})
 </div>
 <br />
 <script>
@@ -71,15 +69,15 @@
 				url: '@(Url.Action("PostRecycleBin", "Person"))',
 				data: "guid=" + guid[j].value + "&date=" + datenow,
                     success: function () {
-                     var d = new Date();
+                     var d = new Date(datenow);
                      var day = d.getDate();
                      var month = d.getMonth() + 1;
                      var year = d.getFullYear();
-						if (month < 10)
-						{ month = "0" + month; }
-						if (day < 10)
-						{day = "0" + day;}
-                        i.parentElement.parentElement.lastElementChild.textContent =  day + "/" + month + "/" + year;
+                     if (month < 10||day<10) {
+                         month = "0" + month;
+                         day = "0" + day;
+                     }
+                        i.parentElement.parentElement.lastElementChild.textContent =  day + "." + month + "." + year;
                         i.checked = false;
                       }
             });

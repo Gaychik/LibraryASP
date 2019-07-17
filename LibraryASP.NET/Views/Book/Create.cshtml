@@ -67,7 +67,7 @@
 		$("div.error").remove();
 			let elementinput = $("input[datacontent='DescriptBook']").get()
 			for (let el of elementinput)
-				if (el.value.length > 0 && /['A-Z''a-z'\s']/i.test(el.value)) {
+				if (el.value.length > 0 && !/['A-Z''a-z'\s']/i.test(el.value)) {
 					$(el).after(DIVError).show()
 					VALID = false;
 				}

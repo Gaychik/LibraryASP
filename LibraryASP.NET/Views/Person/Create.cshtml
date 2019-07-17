@@ -89,7 +89,7 @@
 	$("div.error").remove();
 		let elementinput =$("input[datacontent='pastFullName']").get()
 		for (let el of elementinput)
-			if (el.value.length > 0 && /^[A-Za-z]+\s/i.test(el.value)) {
+			if (el.value.length > 0 && !/^[A-Za-z]+\s/i.test(el.value)) {
 				$(el).after('<div class="error" style="margin-top:15px;"><font color="red">Invalid format,only letters are allowed!</font></div>').show()
 				VALID = false;
 			}	
