@@ -43,7 +43,9 @@
 			}
 		</tbody>
 	</table>
-	@Html.ActionLink("Back to List","Details",new {id=Model.PersonID})
+	@Html.ActionLink("Back to List","Details",new {id=Model.PersonID})|
+	@Html.ActionLink("Report", "GetReport",new {id=Model.PersonID })
+
 </div>
 <br />
 <script>

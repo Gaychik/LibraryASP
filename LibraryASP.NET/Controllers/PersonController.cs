@@ -10,6 +10,8 @@ using LibraryASP.NET.DAL;
 using LibraryASP.NET.Models;
 using PagedList;
 using System.Globalization;
+using Xceed.Words.NET;
+using System.Drawing;
 
 
 namespace LibraryASP.NET
@@ -176,13 +178,11 @@ namespace LibraryASP.NET
             history.DateReceipt = DateTime.ParseExact(date, "M/d/yyyy",provider);
             db.SaveChanges(); 
         }
-
         [HttpGet]
         public ActionResult TakeBook(bool ModeTake,Guid guid)
         {
             cookie = null;
             return RedirectToAction("Index", "Book", new { ModeTake = true, guid = guid.ToString()});
-               
         }
         protected override void Dispose(bool disposing)
         {
@@ -191,6 +191,131 @@ namespace LibraryASP.NET
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult GetReport(Guid id)
+        {
+            var person = db.Persons.Find(id);
+
+            //var PropsInfo = person.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
+            //Word.Application application;
+            //Word.Document document;
+            ////Object _missingObj = Missing.Value;
+            ////Object trueObj = true;
+            ////Object falseObj = false;
+            //application = new Word.Application();
+            string template = AppDomain.CurrentDomain.BaseDirectory + "Report.docx";
+            DocX document = DocX.Create(template);
+            // Вставляем параграф и указываем текст
+            document.InsertParagraph("Тест");
+
+            // вставляем параграф и передаём текст
+            document.InsertParagraph("Тест").
+                     // устанавливаем шрифт
+                     Font("Calibri").
+                     // устанавливаем размер шрифта
+                     FontSize(36).
+                     // устанавливаем цвет
+                     Color(Color.Navy).
+                     // делаем текст жирным
+                     Bold().
+                     // устанавливаем интервал между символами
+                     Spacing(15).
+                     // выравниваем текст по центру
+                     Alignment = Alignment.center;
+
+            // вставляем параграф и добавляем текст
+            Paragraph paragraph = document.InsertParagraph();
+            // выравниваем параграф по правой стороне
+            paragraph.Alignment = Alignment.right;
+
+            // добавляем отдельную строку со своим форматированием
+            paragraph.AppendLine("Test").
+                     // устанавливаем размер шрифта
+                     FontSize(20).
+                     // добавляем курсив
+                     Italic().
+                     // устанавливаем точечное подчёркивание
+                     UnderlineStyle(UnderlineStyle.dotted).
+                     // устанавливаем цвет подчёркивания
+                     UnderlineColor(Color.DarkOrange).
+                     // добавляем выделение текста
+                     Highlight(Highlight.yellow);
+            // добавляем пустую строку
+            paragraph.AppendLine();
+            // добавляем ещё одну строку
+            paragraph.AppendLine("Тест");
+
+            // сохраняем документ
+            document.Save();
+            //Object newTemplate = false;
+            //Object documentType = Type.Missing;
+            //Object visible = true;
+            ////Object templatePathObj = AppDomain.CurrentDomain.BaseDirectory + "Report.docx";
+            ////Object confirmConversions = true;
+            ////Object readOnly = false;
+            ////Object addToRecentFiles = true;
+            ////Object passwordDocument = Type.Missing;
+            ////Object passwordTemplate = Type.Missing;
+            ////Object revert = false;
+            ////Object writePasswordDocument = Type.Missing;
+            ////Object writePasswordTemplate = Type.Missing;
+            ////Object format = Type.Missing;
+            ////Object encoding = Type.Missing; ;
+            ////Object oVisible = true;
+            ////Object openConflictDocument = Type.Missing;
+            ////Object openAndRepair = true;
+            ////Object documentDirection = Type.Missing;
+            ////Object noEncodingDialog = false;
+            ////Object xmlTransform = Type.Missing;
+            //try
+            //{
+            //    document = application.Documents.CheckOut(template);
+            //}
+            //catch (Exception error)
+            //{
+            //    application.Quit(Type.Missing, Type.Missing, Type.Missing);
+            //    application = null;
+            //    throw error;
+            //}
+            //application.Visible = true;
+            //Thread.Sleep(5000);
+            //var wordRange = document.Bookmarks.Cast<Word.Bookmark>().ToList();
+            //var datapriority = person.Recorders.Select(h => new { h.BookName, h.DateReceipt, h.DateIssue }).ToList();
+            //Word.Table table;
+            //foreach (var prop in PropsInfo)
+            //{ 
+            //    var bookmark = wordRange.FirstOrDefault(bm=>bm.Name == prop.Name);
+            //    if (bookmark != null)
+            //    {
+            //        bookmark.Range.Text = prop.GetValue(person).ToString();
+            //        break;
+            //    }
+            //}
+            //var Paragraph = application.ActiveDocument.Paragraphs.Add();
+            //var tableRange = Paragraph.Range;
+            //Object defaultTableBehavior = Word.WdDefaultTableBehavior.wdWord9TableBehavior;
+            //Object autoFitBehavior = Word.WdAutoFitBehavior.wdAutoFitWindow;
+            //application.ActiveDocument.Tables.Add(tableRange, datapriority.Count, 3,defaultTableBehavior,autoFitBehavior);
+            //table = application.ActiveDocument.Tables[application.ActiveDocument.Tables.Count];
+            //table.ApplyStyleHeadingRows = true;
+            //table.ApplyStyleLastRow = false;
+            //table.ApplyStyleFirstColumn = true;
+            //table.ApplyStyleLastColumn = false;
+            //table.ApplyStyleRowBands = true;
+            //table.ApplyStyleColumnBands = false;
+            //for (int i = 0; i < table.Columns.Count; i++)
+            //{
+            //    table.Rows.Add(datapriority[i]);
+            //}
+            //Object pathToSaveObj = @"D:\Report1";
+            //document.SaveAs(ref pathToSaveObj, Word.WdSaveFormat.wdFormatDocument, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing, Type.Missing);
+            //application.Quit(Type.Missing , Type.Missing, Type.Missing);
+            //application = null;
+            //Dispose(true);
+            //GC.SuppressFinalize(this);
+
+            return View("Details", person);
         }
         List<Person> debtors = new List<Person>();
         public ActionResult GetDebtor()
